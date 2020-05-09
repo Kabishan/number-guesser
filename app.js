@@ -1,17 +1,45 @@
-let min = 1,
-  max = 10,
-  num = getNum(min, max),
-  guessesLeft = 3;
-
 const UIgame = document.getElementById('game'),
+  UISelect = document.getElementById('select'),
+  UIInst = document.getElementById('inst'),
   UIInput = document.getElementById('guess-input'),
+  UISelMin = document.getElementById('min'),
+  UISelMax = document.getElementById('max'),
+  UISelBtn = document.getElementById('sel-btn'),
   UIBtn = document.getElementById('guess-btn'),
-  UImin = document.querySelector('.min-num'),
-  UImax = document.querySelector('.max-num'),
+  UIMin = document.querySelector('.min-num'),
+  UIMax = document.querySelector('.max-num'),
   message = document.querySelector('.message');
 
-UImin.textContent = min;
-UImax.textContent = max;
+UISelBtn.addEventListener('click', prePlay);
+
+var min, max, num, guessesLeft;
+
+function prePlay() {
+  min = parseInt(UISelMin.value);
+  max = parseInt(UISelMax.value);
+
+  if (!isNaN(min) && !isNaN(max) && min < max) {
+    UISelect.style.display = 'none';
+    UISelMin.style.display = 'none';
+    UISelMax.style.display = 'none';
+    UISelBtn.style.display = 'none';
+
+    UIInst.style.display = 'block';
+    UIInput.style.display = 'inline';
+    UIBtn.style.display = 'inline';
+
+    /* Clear message in case invalid 
+    boundaries were entered previously */
+    message.textContent = '';
+  } else {
+    setMessage(`Please enter a valid boundaries.`, 'red');
+  }
+
+  UIMin.textContent = min;
+  UIMax.textContent = max;
+  num = getNum(min, max);
+  guessesLeft = 3;
+}
 
 game.addEventListener('mousedown', function (e) {
   if (e.target.className === 'play-again') {
