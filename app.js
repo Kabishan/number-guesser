@@ -1,6 +1,6 @@
 let min = 1,
   max = 10,
-  num = 2,
+  num = getNum(min, max),
   guessesLeft = 3;
 
 const UIgame = document.getElementById('game'),
@@ -13,9 +13,15 @@ const UIgame = document.getElementById('game'),
 UImin.textContent = min;
 UImax.textContent = max;
 
-UIBtn.addEventListener('click', validator);
+game.addEventListener('mousedown', function (e) {
+  if (e.target.className === 'play-again') {
+    window.location.reload();
+  }
+});
 
-function validator() {
+UIBtn.addEventListener('click', gamePlay);
+
+function gamePlay() {
   let guess = parseInt(UIInput.value);
 
   if (isNaN(guess) || guess < min || guess > max)
@@ -47,6 +53,13 @@ function gameOver(won, msg) {
   UIInput.style.borderColor = color;
 
   setMessage(msg, color);
+
+  UIBtn.value = 'Play Again';
+  UIBtn.className += 'play-again';
+}
+
+function getNum(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 function setMessage(msg, color) {
